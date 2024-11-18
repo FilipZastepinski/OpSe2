@@ -1,3 +1,4 @@
+/*
 package gui;
 
 import java.io.BufferedReader;
@@ -221,3 +222,4 @@ public class GetraenkemarktAnwendersystem {
 	}
 
 }
+*/

@@ -34,12 +34,8 @@ public class GetraenkemarktControl {
 
 	public void leseAusDatei(String typ) {
 		try {
-			if ("csv".equals(typ)) {
-				getrMod.leseAusDatei(typ);
-				getrView.zeigeInformationsfensterAn("Die Getraenkemarkt wurden gelesen!");
-			} else {
-				getrView.zeigeInformationsfensterAn("Noch nicht implementiert!");
-			}
+			getrMod.leseAusDatei(typ);
+			getrView.zeigeInformationsfensterAn("Die Getraenkemarkt wurden gelesen!");
 		} catch (IOException exc) {
 			getrView.zeigeInformationsfensterAn("IOException beim Lesen!");
 		} catch (Exception exc) {
