@@ -1,6 +1,7 @@
 package gui;
 
 
+import business.GetraenkemarktModel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -17,11 +18,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import ownUtil.MeldungsfensterAnzeiger;
+import ownUtil.Observer;
 
-public class GetraenkemarktView {
+public class GetraenkemarktView implements Observer {
 
 	private GetraenkemarktControl getrCont;
-
+	
 	// ---Anfang Attribute der grafischen Oberflaeche---
 	private Pane pane = new Pane();
 	private Label lblEingabe = new Label("Eingabe");
@@ -56,6 +58,10 @@ public class GetraenkemarktView {
 		primaryStage.show();
 		this.initKomponenten();
 		this.initListener();
+		
+		// View als Observer hinzufügen
+		GetraenkemarktModel getrMod = GetraenkemarktModel.getInstance();
+		getrMod.addObserver(this);
 
 	}
 
@@ -188,6 +194,12 @@ public class GetraenkemarktView {
 	
 	public TextArea getTxtAnzeige() {
 		return txtAnzeige;
+	}
+	
+	@Override
+	public void update() {
+		getrCont.zeigeGetraenkeMarktAn();
+		
 	}
 
 }

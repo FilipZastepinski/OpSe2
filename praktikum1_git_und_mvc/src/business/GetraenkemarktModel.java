@@ -5,15 +5,60 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import ownUtil.Observable;
+import ownUtil.Observer;
 import readers.*;
 
-public class GetraenkemarktModel {
+public class GetraenkemarktModel implements Observable {
 
 	public Getraenkemarkt getraenkemarkt;
+	
+	// Singleton Pattern ----------------------------------------------------------------
+	// statische variable die beim aufruf von getInstance() die einzige Instanz hält
+	private static GetraenkemarktModel instance;
+	// verwindert erzeugung weiterer instanzen in anderen klassen
+	private GetraenkemarktModel() { 
+		
+	}
+	// methode zur erzeugung einer einzigen instanz
+	public static GetraenkemarktModel getInstance() {
+		if (instance == null) {
+			instance = new GetraenkemarktModel();
+		}
+		return instance;
+	}
+	// Singleton Pattern ---------------------------------------------------------------
+	
+	// Observable Pattern
+	private List<Observer> observers = new ArrayList<>(); // Liste der Beobachter
+	
+	@Override
+	public void addObserver(Observer observer) {
+		this.observers.add(observer);
+		
+	}
+
+	@Override
+	public void removeObserver(Observer observer) {
+		this.observers.remove(observer);
+		
+	}
+
+	@Override
+	public void notifyObservers() {
+		for (Observer observer : observers) {
+			observer.update();
+		}
+		
+	}
 
 	public void nehmeGetraenkemarktAuf(String artikelnummer, float einkaufspreis, float verkaufspreis,
 			String mitAlkohol, String[] behaeltnis) {
 		this.getraenkemarkt = new Getraenkemarkt(artikelnummer, einkaufspreis, verkaufspreis, mitAlkohol, behaeltnis);
+		notifyObservers(); // Benachrichtigung der Observer nach Aufnahme von Getränken
 	}
 
 	public String zeigeGetraenkeMarktAn() {
@@ -48,6 +93,7 @@ public class GetraenkemarktModel {
 	    } else {
 	        throw new IOException("Fehler beim Lesen der Daten aus der Datei");
 	    }
+	    notifyObservers(); // Benachrichtigung der Observer nach lesen von Dateien
 		
 	}
 

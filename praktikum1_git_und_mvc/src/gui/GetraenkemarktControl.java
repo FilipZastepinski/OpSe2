@@ -10,7 +10,7 @@ public class GetraenkemarktControl {
 	private GetraenkemarktView getrView;
 
 	public GetraenkemarktControl(Stage primaryStage) {
-		this.getrMod = new GetraenkemarktModel();
+		this.getrMod = GetraenkemarktModel.getInstance(); // Singleton
 		this.getrView = new GetraenkemarktView(this, primaryStage);
 	}
 
